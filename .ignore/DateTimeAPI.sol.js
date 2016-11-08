@@ -231,13 +231,13 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("ConvertLib error: Please call setProvider() first before calling new().");
+      throw new Error("DateTimeAPI error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("ConvertLib error: contract binary not set. Can't deploy new instance.");
+      throw new Error("DateTimeAPI error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -256,7 +256,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("ConvertLib contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of ConvertLib: " + unlinked_libraries);
+      throw new Error("DateTimeAPI contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of DateTimeAPI: " + unlinked_libraries);
     }
 
     var self = this;
@@ -297,7 +297,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to ConvertLib.at(): " + address);
+      throw new Error("Invalid address passed to DateTimeAPI.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -308,7 +308,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: ConvertLib not deployed or address not set.");
+      throw new Error("Cannot find deployed address: DateTimeAPI not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -350,33 +350,281 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   "default": {
     "abi": [
       {
-        "constant": false,
+        "constant": true,
         "inputs": [
           {
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "name": "conversionRate",
+            "name": "timestamp",
             "type": "uint256"
           }
         ],
-        "name": "convert",
+        "name": "getHour",
         "outputs": [
           {
-            "name": "convertedAmount",
+            "name": "",
+            "type": "uint16"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
             "type": "uint256"
+          }
+        ],
+        "name": "getWeekday",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          },
+          {
+            "name": "hour",
+            "type": "uint8"
+          },
+          {
+            "name": "minute",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getDay",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint16"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          },
+          {
+            "name": "hour",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getSecond",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint16"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          },
+          {
+            "name": "hour",
+            "type": "uint8"
+          },
+          {
+            "name": "minute",
+            "type": "uint8"
+          },
+          {
+            "name": "second",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getYear",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint16"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getMonth",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint16"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          }
+        ],
+        "name": "isLeapYear",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getMinute",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint16"
           }
         ],
         "payable": false,
         "type": "function"
       }
     ],
-    "unlinked_binary": "0x606060405260358060106000396000f3650402af6afb0450606060405260e060020a600035046396e4ee3d81146024575b6007565b602435600435026060908152602090f3",
     "events": {},
-    "updated_at": 1478102376580,
-    "links": {},
-    "address": "0x1e10e2efb6b9320ff5d9aafcaf3d49121a3711a8"
+    "updated_at": 1478580810187,
+    "links": {}
   }
 };
 
@@ -461,7 +709,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "ConvertLib";
+  Contract.contract_name   = Contract.prototype.contract_name   = "DateTimeAPI";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.2.0";
 
   // Allow people to opt-in to breaking changes now.
@@ -501,6 +749,6 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.ConvertLib = Contract;
+    window.DateTimeAPI = Contract;
   }
 })();

@@ -231,13 +231,13 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("MetaCoin error: Please call setProvider() first before calling new().");
+      throw new Error("HelperLib error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("MetaCoin error: contract binary not set. Can't deploy new instance.");
+      throw new Error("HelperLib error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -256,7 +256,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("MetaCoin contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of MetaCoin: " + unlinked_libraries);
+      throw new Error("HelperLib contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of HelperLib: " + unlinked_libraries);
     }
 
     var self = this;
@@ -297,7 +297,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to MetaCoin.at(): " + address);
+      throw new Error("Invalid address passed to HelperLib.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -308,7 +308,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: MetaCoin not deployed or address not set.");
+      throw new Error("Cannot find deployed address: HelperLib not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -350,18 +350,218 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   "default": {
     "abi": [
       {
-        "constant": false,
+        "constant": true,
         "inputs": [
           {
-            "name": "addr",
-            "type": "address"
+            "name": "timestamp",
+            "type": "uint256"
           }
         ],
-        "name": "getBalanceInEth",
+        "name": "getHour",
         "outputs": [
           {
             "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
             "type": "uint256"
+          }
+        ],
+        "name": "getWeekday",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          },
+          {
+            "name": "hour",
+            "type": "uint8"
+          },
+          {
+            "name": "minute",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getDay",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          },
+          {
+            "name": "hour",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getSecond",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          },
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "day",
+            "type": "uint8"
+          },
+          {
+            "name": "hour",
+            "type": "uint8"
+          },
+          {
+            "name": "minute",
+            "type": "uint8"
+          },
+          {
+            "name": "second",
+            "type": "uint8"
+          }
+        ],
+        "name": "toTimestamp",
+        "outputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getYear",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint16"
           }
         ],
         "payable": false,
@@ -371,18 +571,54 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "receiver",
-            "type": "address"
+            "name": "amount",
+            "type": "uint256"
           },
           {
-            "name": "amount",
+            "name": "conversionRate",
             "type": "uint256"
           }
         ],
-        "name": "sendCoin",
+        "name": "convert",
         "outputs": [
           {
-            "name": "sufficient",
+            "name": "convertedAmount",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "name": "getMonth",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "year",
+            "type": "uint16"
+          }
+        ],
+        "name": "isLeapYear",
+        "outputs": [
+          {
+            "name": "",
             "type": "bool"
           }
         ],
@@ -390,14 +626,14 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "function"
       },
       {
-        "constant": false,
+        "constant": true,
         "inputs": [
           {
-            "name": "addr",
-            "type": "address"
+            "name": "year",
+            "type": "uint256"
           }
         ],
-        "name": "getBalance",
+        "name": "leapYearsBefore",
         "outputs": [
           {
             "name": "",
@@ -408,62 +644,59 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "function"
       },
       {
-        "inputs": [],
-        "type": "constructor"
+        "constant": true,
+        "inputs": [
+          {
+            "name": "month",
+            "type": "uint8"
+          },
+          {
+            "name": "year",
+            "type": "uint16"
+          }
+        ],
+        "name": "getDaysInMonth",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
       },
       {
-        "anonymous": false,
+        "constant": false,
+        "inputs": [],
+        "name": "__throw",
+        "outputs": [],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
         "inputs": [
           {
-            "indexed": true,
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "_value",
+            "name": "timestamp",
             "type": "uint256"
           }
         ],
-        "name": "Transfer",
-        "type": "event"
+        "name": "getMinute",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint8"
+          }
+        ],
+        "payable": false,
+        "type": "function"
       }
     ],
-    "unlinked_binary": "0x6060604052600160a060020a033216600090815260208190526040902061271090556101b18061002f6000396000f3606060405260e060020a60003504637bd703e8811461003457806390b98a111461007f578063f8b2cb4f146100b6575b610002565b34610002576100c6600435600073__ConvertLib____________________________6396e4ee3d6100ec845b600160a060020a0381166000908152602081905260409020545b919050565b34610002576100d860043560243533600160a060020a031660009081526020819052604081205482901015610141575060006101ab565b34610002576100c6600435610060565b60408051918252519081900360200190f35b604080519115158252519081900360200190f35b60026000604051602001526040518360e060020a028152600401808381526020018281526020019250505060206040518083038186803b156100025760325a03f41561000257505060405151915061007a9050565b33600160a060020a0390811660008181526020818152604080832080548890039055938716808352918490208054870190558351868152935191937fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef929081900390910190a35060015b9291505056",
-    "events": {
-      "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "Transfer",
-        "type": "event"
-      }
-    },
-    "updated_at": 1478102376596,
-    "links": {
-      "ConvertLib": "0x1e10e2efb6b9320ff5d9aafcaf3d49121a3711a8"
-    },
-    "address": "0xc6002e4b4ed7419c246b0c428b84a5e5436125e1"
+    "unlinked_binary": "0x6060604052610739806100126000396000f3650402af6afb0450606060405236156100cc5760e060020a60003504633e239e1a81146100d15780634ac1ad78146100e657806362ba9687146100fe57806365c72840146101215780637f791833146101815780638aa001fc146101a25780638c8d98a0146101b25780639054bdec146101d157806392d663131461022f57806396e4ee3d14610252578063a324ad2414610265578063a6f0e57714610276578063b19999371461029c578063b238ad0e146102bb578063e1041d861461032f578063fa93f88314610349575b610007565b61035b6004355b6018603c80830404066103b8565b61035b6004355b6007620151808204600401066103b8565b61037260043560243560443560643560843560006103bd868686868660006101e7565b61035b60043560006103b1825b60e060405190810160405280600081526020016000815260200160008152602001600081526020016000815260200160008152602001600081526020015060006000600060006000935061060286610236565b61037260043560243560443560643560006103c785858585600060006101e7565b61035b6004355b603c81066103b8565b61037260043560243560443560006103d08484846000600060006101e7565b61037260043560243560443560643560843560a4355b6000600061018060405190810160405280600c905b60008152602001906001900390816101fc57506107b29250505b8861ffff168261ffff1610156103d8576103e58261027d565b6103846004355b6000806301e1338083046107b29081019082906104e1906102a3565b6103726004356024358181025b92915050565b61035b60043560006105588261012e565b61039b6004355b6000600461ffff83160661ffff166000141515610563575060006103b8565b6103726004355b600019016064810460048204036101908204016103b8565b61035b6004356024355b60008260ff16600114806102dc57508260ff166003145b806102ea57508260ff166005145b806102f857508260ff166007145b8061030657508260ff166008145b8061031457508260ff16600a145b8061032257508260ff16600c145b156105a65750601f61025f565b6103af604080516020810190915260008152806001610007565b61035b6004355b603c808204066103b8565b6040805160ff929092168252519081900360200190f35b60408051918252519081900360200190f35b6040805161ffff9092168252519081900360200190f35b604080519115158252519081900360200190f35b005b6040015190505b919050565b9695505050505050565b95945050505050565b949350505050565b601f815261040e8961027d565b156103f8576301e2850090920191610402565b6301e13380909201915b60019190910190610216565b1561041f57601d6020820152610427565b601c60208201525b601f60408201819052601e606083018190526080830182905260a0830181905260c0830182905260e0830182905261010083018190526101208301829052610140830152610160820152600191505b8760ff168261ffff1610156104b157806001830361ffff16600c81101561000757602002015162015180029092019160019190910190610476565b505060001990940160ff9081166201518002909401928416610e100292909201908316603c020191160192915050565b6104ee8361ffff166102a3565b036301e2850081029093016107b119830161ffff168490036301e1338002019290505b848311156105255761052d6001830361027d565b509392505050565b15610541576301e284ff199092019161054c565b6301e1337f19909201915b60001990910190610511565b6020015190506103b8565b606461ffff83160661ffff166000141515610580575060016103b8565b61019061ffff83160661ffff16600014151561059e575060006103b8565b5060016103b8565b8260ff16600414806105bb57508260ff166006145b806105c957508260ff166009145b806105d757508260ff16600b145b156105e45750601e61025f565b6105ed8261027d565b156105fa5750601d61025f565b50601c61025f565b61ffff1685526106136107b26102a3565b85516106229061ffff166102a3565b86516301e28500929091039182029095016107b11990950161ffff168190036301e133800294909401939250600191505b600c60ff83161161068c5761066c8286600001516102c5565b60ff166201518002905080508584820111156106a35760ff821660208601525b600191505b6106b3856020015186600001516102c5565b9283019260019190910190610653565b60ff168260ff161115156106d8578584620151800111156106e15760ff821660408601525b6106f5866100d8565b620151809093019260019190910190610691565b60ff16606086015261070686610350565b60ff166080860152610717866101a9565b60ff1660a0860152610728866100ed565b60ff1660c08601525050505091905056",
+    "events": {},
+    "updated_at": 1478580892274,
+    "links": {},
+    "address": "0xc90359b737054e7aeae050155828acc5260bab88"
   }
 };
 
@@ -548,7 +781,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "MetaCoin";
+  Contract.contract_name   = Contract.prototype.contract_name   = "HelperLib";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.2.0";
 
   // Allow people to opt-in to breaking changes now.
@@ -588,6 +821,6 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.MetaCoin = Contract;
+    window.HelperLib = Contract;
   }
 })();

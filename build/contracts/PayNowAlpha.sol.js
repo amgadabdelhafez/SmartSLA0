@@ -231,13 +231,13 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("Migrations error: Please call setProvider() first before calling new().");
+      throw new Error("PayNowAlpha error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("Migrations error: contract binary not set. Can't deploy new instance.");
+      throw new Error("PayNowAlpha error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -256,7 +256,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("Migrations contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Migrations: " + unlinked_libraries);
+      throw new Error("PayNowAlpha contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of PayNowAlpha: " + unlinked_libraries);
     }
 
     var self = this;
@@ -297,7 +297,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Migrations.at(): " + address);
+      throw new Error("Invalid address passed to PayNowAlpha.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -308,7 +308,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: Migrations not deployed or address not set.");
+      throw new Error("Cannot find deployed address: PayNowAlpha not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -350,22 +350,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   "default": {
     "abi": [
       {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "new_address",
-            "type": "address"
-          }
-        ],
-        "name": "upgrade",
-        "outputs": [],
-        "payable": false,
-        "type": "function"
-      },
-      {
         "constant": true,
         "inputs": [],
-        "name": "last_completed_migration",
+        "name": "readOpenIncidents",
         "outputs": [
           {
             "name": "",
@@ -377,12 +364,74 @@ var SolidityEvent = require("web3/lib/web3/event.js");
       },
       {
         "constant": true,
-        "inputs": [],
-        "name": "owner",
+        "inputs": [
+          {
+            "name": "_sys_id",
+            "type": "bytes32"
+          }
+        ],
+        "name": "readIncidentTs",
         "outputs": [
           {
             "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "numOfIncs",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "_sys_id",
+            "type": "bytes32"
+          }
+        ],
+        "name": "readIncidentState",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [
+          {
+            "name": "",
+            "type": "bytes32"
+          }
+        ],
+        "name": "incidents",
+        "outputs": [
+          {
+            "name": "requester",
             "type": "address"
+          },
+          {
+            "name": "currentState",
+            "type": "string"
+          },
+          {
+            "name": "incidetCreatedOn",
+            "type": "string"
           }
         ],
         "payable": false,
@@ -392,25 +441,56 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "completed",
-            "type": "uint256"
+            "name": "_requester",
+            "type": "address"
+          },
+          {
+            "name": "_sys_id",
+            "type": "bytes32"
+          },
+          {
+            "name": "_created",
+            "type": "string"
           }
         ],
-        "name": "setCompleted",
-        "outputs": [],
+        "name": "createIncident",
+        "outputs": [
+          {
+            "name": "success",
+            "type": "bool"
+          }
+        ],
         "payable": false,
         "type": "function"
       },
       {
-        "inputs": [],
-        "type": "constructor"
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_sys_id",
+            "type": "bytes32"
+          },
+          {
+            "name": "_newState",
+            "type": "bytes32"
+          }
+        ],
+        "name": "updateIncidentState",
+        "outputs": [
+          {
+            "name": "success",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "type": "function"
       }
     ],
-    "unlinked_binary": "0x606060405260008054600160a060020a0319163317905561014f806100246000396000f3606060405260e060020a60003504630900f010811461003f578063445df0ac146100ce5780638da5cb5b146100dc578063fdacd576146100f3575b610002565b346100025761011e60043560008054600160a060020a039081163390911614156100ca57604080516001547ffdacd576000000000000000000000000000000000000000000000000000000008252600482015290518392600160a060020a0384169263fdacd576926024828101939282900301818387803b156100025760325a03f115610002575050505b5050565b346100025761012060015481565b3461000257610132600054600160a060020a031681565b346100025761011e60043560005433600160a060020a039081169116141561011b5760018190555b50565b005b60408051918252519081900360200190f35b60408051600160a060020a03929092168252519081900360200190f3",
+    "unlinked_binary": "0x60606040526105a1806100126000396000f3606060405236156100615760e060020a60003504630c34ed62811461006657806315c0d30d14610081578063441da5ad146101015780637612fcbe1461010f5780639739d1671461018f578063d318fdeb146101cd578063f8f88245146102ac575b610002565b34610002576002545b60408051918252519081900360200190f35b34610002576102c86004356040805160208181018352600080835284815260018083529084902084516002918201805493841615610100026000190190931691909104601f8101849004840282018401909552848152929390918301828280156104825780601f1061045757610100808354040283529160200191610482565b346100025761006f60025481565b34610002576102c860043560408051602081810183526000808352848152600180835290849020810180548551600293821615610100026000190190911692909204601f810184900484028301840190955284825292939092918301828280156104825780601f1061045757610100808354040283529160200191610482565b34610002576103366004356001602081905260009182526040909120805473ffffffffffffffffffffffffffffffffffffffff169181019060020183565b3461000257604080516020604435600481810135601f81018490048402850184019095528484526102b494813594602480359593946064949293910191819084018382808284375094965050505050505060008281526001602081815260408320805473ffffffffffffffffffffffffffffffffffffffff1916871781556002908101805486518287528487209295821615610100026000190190911692909204601f90810184900482019387019083901061048e57805160ff19168380011785555b506104be9291505b808211156105575760008155600101610298565b346100025760015b604080519115158252519081900360200190f35b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156103285780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b6040805173ffffffffffffffffffffffffffffffffffffffff8516815260606020820181815285546002600182161561010002600019019091160491830182905291928301906080840190869080156103d05780601f106103a5576101008083540402835291602001916103d0565b820191906000526020600020905b8154815290600101906020018083116103b357829003601f168201915b5050838103825284546002600182161561010002600019019091160480825260209190910190859080156104455780601f1061041a57610100808354040283529160200191610445565b820191906000526020600020905b81548152906001019060200180831161042857829003601f168201915b50509550505050505060405180910390f35b820191906000526020600020905b81548152906001019060200180831161046557829003601f168201915b50505050509050919050565b82800160010185558215610290579182015b828111156102905782518260005055916020019190600101906104a0565b5050604080518082018252600481527f6f70656e0000000000000000000000000000000000000000000000000000000060208281019182526000878152600180835294812093519385018054818352918390209095600290831615610100026000190190921691909104601f9081019290920481019392909183901061055b57805160ff19168380011785555b5061058b929150610298565b5090565b8280016001018555821561054b579182015b8281111561054b57825182600050559160200191906001019061056d565b505060028054600190810190915594935050505056",
     "events": {},
-    "updated_at": 1478580892277,
-    "address": "0xf7ff160ac3d70bb625e7e7906c4c30da7ca2ef27",
-    "links": {}
+    "updated_at": 1478580892279,
+    "links": {},
+    "address": "0x9e341905454811067131c3f72e7332560fa11e2b"
   }
 };
 
@@ -495,7 +575,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "Migrations";
+  Contract.contract_name   = Contract.prototype.contract_name   = "PayNowAlpha";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.2.0";
 
   // Allow people to opt-in to breaking changes now.
@@ -535,6 +615,6 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.Migrations = Contract;
+    window.PayNowAlpha = Contract;
   }
 })();
